@@ -28,21 +28,7 @@ let selectedValue;
 
 arrExpensesStored.length>0 && updateArrayExpenseTable();
 
-function updateArrayExpenseTable(){
 
-    let fecha,categoria,valor,remito,pago;
-
-    arrExpensesStored.forEach(function(expenseStored) {
-        //fecha = new Date();  
-        //fecha = fecha.toLocaleDateString();
-        let nuevoGasto = new Gasto(expenseStored.fecha, expenseStored.categoria, expenseStored.valor,expenseStored.remito,expenseStored.pago,expenseStored.ID);
-        arrayGastos.push(nuevoGasto);
-
-        document.getElementById("inputExpenseForm").reset();
-        
-        addRowTable(nuevoGasto);
-     })    
-}
 //randomExpenses();
 
 //Funcion resetea variables globales y elimina objetos del array de gastos

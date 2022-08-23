@@ -24,7 +24,7 @@ const readFormInput = () => {
     }
 }
 
-//funcion agrega fila de tabla con nuevo gasto  
+//funcion agrega fila de tabla con gasto
 function addRowTable(objeto){
     
     // ubicacioon de elementos de tabla en html
@@ -34,7 +34,6 @@ function addRowTable(objeto){
     nodofila.id= objeto.ID; 
 
     // evento onmouseenter en cada fila
-    let index = arrayGastos.length -1;
     nodofila.onmouseenter = () =>{
             //objeto.deleteCompleteRow();
             //arrayGastos.splice(index,1);
@@ -53,7 +52,13 @@ function addRowTable(objeto){
             nodofila.appendChild(objeto.returnNodoCeldaTabla(atributo)); 
         }
     }
-    /*
-    let enJSON = JSON.stringify(objeto);
-    localStorage.setItem(objeto.ID,enJSON);*/
+}
+//funcion lee gastos almacenados y actuliza tabla y array de gastos
+function updateArrayExpenseTable(){
+
+    arrExpensesStored.forEach(function(expenseStored) {
+        let nuevoGasto = new Gasto(expenseStored.fecha, expenseStored.categoria, expenseStored.valor,expenseStored.remito,expenseStored.pago,expenseStored.ID);
+        arrayGastos.push(nuevoGasto);
+        addRowTable(nuevoGasto);
+     })    
 }
