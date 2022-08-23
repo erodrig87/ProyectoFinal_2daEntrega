@@ -21,7 +21,7 @@ let promedio = parseFloat(JSON.parse(localStorage.getItem("AVERAGE_EXPENSES")) |
 let gasto_max = parseFloat(JSON.parse(localStorage.getItem("MAX_EXPENSE")) || 0);
 let gasto_min = parseFloat(JSON.parse(localStorage.getItem("MIN_EXPENSE")) || 0);
 let ID_GASTO_GLOBAL = JSON.parse(localStorage.getItem("ID_GASTO_GLOBAL")) || 0;
-let arrExpensesStored= JSON.parse(localStorage.getItem("arrExpensesStored")) || [];
+let arrExpensesStored = JSON.parse(localStorage.getItem("arrExpensesStored")) || [];
 let arrayGastos = [];
 let selectedFecha;
 let selectedValue;
@@ -33,14 +33,9 @@ function updateArrayExpenseTable(){
     let fecha,categoria,valor,remito,pago;
 
     arrExpensesStored.forEach(function(expenseStored) {
-        fecha = new Date();  
-        fecha = fecha.toLocaleDateString();
-        categoria = expenseStored.categoria;
-        valor = expenseStored.valor;
-        remito = expenseStored.remito;
-        pago = expenseStored.pago;
-
-        let nuevoGasto = new Gasto(fecha, categoria, valor,remito,pago);
+        //fecha = new Date();  
+        //fecha = fecha.toLocaleDateString();
+        let nuevoGasto = new Gasto(expenseStored.fecha, expenseStored.categoria, expenseStored.valor,expenseStored.remito,expenseStored.pago,expenseStored.ID);
         arrayGastos.push(nuevoGasto);
 
         document.getElementById("inputExpenseForm").reset();
@@ -71,66 +66,12 @@ function restarDias(dias) {
     return fecha;
 }
 
-//crea un objeto gasto tomando los parametros ingresados en el form
-const crearGasto = () => {
-    
-    let fecha = new Date(document.getElementById("inputDate").value);    
-    fecha = fecha.toLocaleDateString();
-    let categoria = document.getElementById("inputTypeExpense").value;
-    let valor = parseFloat(document.getElementById("inputValueExpense").value);
-    let remito = document.getElementById("inputTicketNumberExpense").value;
-    let pago = document.getElementById("inputPaymentMethod").value;
-
-    let nuevoGasto = new Gasto(fecha, categoria, valor,remito,pago);
-    arrayGastos.push(nuevoGasto);
-
-    document.getElementById("inputExpenseForm").reset();
-    nuevoGasto.storeExpense();
-    addRowTable(nuevoGasto);
-
- }
-
- function updateCanvas(objeto){
+function updateCanvas(objeto){
     let canvas = document.getElementById("textSelectedRow");
     let context = canvas.getContext("2d");
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.font = "40px Arial";
     context.fillText(`$ ${objeto.valor}`, 100, 50);
-}
-
-
-//funcion agrega fila de tabla con nuevo gasto  
-function addRowTable(objeto){
-    
-        // ubicacioon de elementos de tabla en html
-        let tableElements = document.getElementById("tableElements");
-        // creo nodo fila
-        nodofila = document.createElement("tr");
-        nodofila.id= objeto.ID; 
-
-        // evento onmouseenter en cada fila
-        let index = arrayGastos.length -1;
-        nodofila.onmouseenter = () =>{
-                //objeto.deleteCompleteRow();
-                //arrayGastos.splice(index,1);
-                updateCanvas(objeto);
-        }
-        tableElements.appendChild(nodofila);
-
-        // creo nodo celda indicacion numero de fila visualizada (no tabla)
-        let nodo_index =document.createElement('td');
-        nodo_index.innerText=`${arrayGastos.length}`;
-        nodofila.appendChild(nodo_index);
-
-        // Utilizo metodo de clase para generar nodos para cada atributo y completar al tabla
-        for( const atributo in objeto){
-            if(atributo!="ID"){
-                nodofila.appendChild(objeto.returnNodoCeldaTabla(atributo)); 
-            }
-        }
-        /*
-        let enJSON = JSON.stringify(objeto);
-        localStorage.setItem(objeto.ID,enJSON);*/
 }
 //Devuelve la posicion del gasto maximo
 const maxGasto = () => {
@@ -204,63 +145,3 @@ const filtrar = () => {
 
     } 
 }
-//Muestra gastos realizados recorriendo el array
-function mostrarGastos() {
-    let mensajeGastos = "";
-    if (arrayGastos.length > 0) {
-        mensajeGastos = "Gastos realizados\n";
-        arrayGastos.forEach(gasto => {
-            mensajeGastos += `Fecha: ${gasto.fecha} | Categoria: ${gasto.categoria} | Valor: ${gasto.valor.toFixed(2)}\n`;
-        });
-        alert(mensajeGastos);
-    } else {
-        mensajeGastos += 'No se ingresaron gastos';
-        alert(mensajeGastos);
-    }
-}
-// se ingresan automaticamente 9 gastos para poder utilizar funciones de calculo
-
-function randomExpenses(){
-
-    for(let i=0;i<3;i++)
-    {
-        let valor = Math.floor(Math.random() * 500);
-        let fecha = new Date();
-        nuevoGasto = new Gasto(fecha.toLocaleDateString(), "A", valor,`RECIBO${i}`,"Efec.");
-        arrayGastos.push(nuevoGasto);
-        nuevoGasto.storeExpense();
-        addRowTable(nuevoGasto);
-    }
-    for(let i=3;i<6;i++)
-    {
-        let valor = Math.floor(Math.random() * 500);
-        let fecha = new Date();
-        nuevoGasto = new Gasto(fecha.toLocaleDateString(), "B", valor,`RECIBO${i}`,"Transf.");
-        arrayGastos.push(nuevoGasto);
-        nuevoGasto.storeExpense();
-        addRowTable(nuevoGasto);
-    }
-    for(let i=6;i<9;i++)
-    {
-        let valor = Math.floor(Math.random() * 500);
-        let fecha = new Date();
-        nuevoGasto = new Gasto(fecha.toLocaleDateString(), "C", valor,`RECIBO${i}`,"Efec.");
-        arrayGastos.push(nuevoGasto);
-        nuevoGasto.storeExpense();
-        addRowTable(nuevoGasto);
-    }
-}
-    //Declaracion de Eventos
-    
-    let btmInputExpenseForm = document.getElementById("btmInputExpenseForm");
-    btmInputExpenseForm.onclick = () =>{crearGasto()};
-    
-    let btmMostrarCalculos = document.getElementById("btmMostrarCalculos");
-    btmMostrarCalculos.onclick = () =>{mostrarCalculos()};
-    
-    let btmFiltrar = document.getElementById("btmFiltrar");
-    btmFiltrar.onclick = () =>{filtrar()};
-    
-    let btmReset= document.getElementById("btmReset");
-    btmReset.onclick = () =>{resetGastos()};
-    
