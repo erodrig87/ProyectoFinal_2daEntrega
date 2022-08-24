@@ -16,6 +16,8 @@ Sin interaccion con HTML:
 -Boton 'Filtrar Categoria', solicita ingresar categoria a filtrar y muestra gastos.`);*/
 
 //Def variables globales
+let createRandomExpenses = localStorage.getItem("RANDOM_EXPENSES") || "true";
+
 let gasto_total = 0;
 let avgExpense = parseFloat(JSON.parse(localStorage.getItem("AVERAGE_EXPENSES")) || 0);
 let maxExpense = parseFloat(JSON.parse(localStorage.getItem("MAX_EXPENSE")) || 0);
@@ -28,5 +30,4 @@ let selectedValue;
 
 arrExpensesStored.length>0 && updateArrayExpenseTable();
 
-
-//randomExpenses();
+(createRandomExpenses == "true") ? randomExpenses():false;

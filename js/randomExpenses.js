@@ -25,4 +25,5 @@ function randomExpenses() {
         nuevoGasto.storeExpense();
         addRowTable(nuevoGasto);
     }
+    localStorage.setItem("RANDOM_EXPENSES","false");
 }
