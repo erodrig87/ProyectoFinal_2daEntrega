@@ -5,7 +5,7 @@ function randomExpenses() {
         let valor = Math.floor(Math.random() * 500);
         let fecha = new Date();
         nuevoGasto = new Gasto(fecha.toLocaleDateString(), "A", valor, `RECIBO${i}`, "Efec.",ID_GASTO_GLOBAL++);
-        arrayGastos.push(nuevoGasto);
+        arrExpenses.push(nuevoGasto);
         nuevoGasto.storeExpense();
         addRowTable(nuevoGasto);
     }
@@ -13,7 +13,7 @@ function randomExpenses() {
         let valor = Math.floor(Math.random() * 500);
         let fecha = new Date();
         nuevoGasto = new Gasto(fecha.toLocaleDateString(), "B", valor, `RECIBO${i}`, "Transf.",ID_GASTO_GLOBAL++);
-        arrayGastos.push(nuevoGasto);
+        arrExpenses.push(nuevoGasto);
         nuevoGasto.storeExpense();
         addRowTable(nuevoGasto);
     }
@@ -21,7 +21,7 @@ function randomExpenses() {
         let valor = Math.floor(Math.random() * 500);
         let fecha = new Date();
         nuevoGasto = new Gasto(fecha.toLocaleDateString(), "C", valor, `RECIBO${i}`, "Efec.",ID_GASTO_GLOBAL++);
-        arrayGastos.push(nuevoGasto);
+        arrExpenses.push(nuevoGasto);
         nuevoGasto.storeExpense();
         addRowTable(nuevoGasto);
     }

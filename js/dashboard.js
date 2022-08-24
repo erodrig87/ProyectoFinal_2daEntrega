@@ -1,3 +1,11 @@
+
+//funcion que devuelve fecha actual - x dias pasados como parametro utilizada en dashboard.js para modificar eje x del grafico
+function restarDias(dias) {
+  fecha = new Date();
+  fecha.setDate(fecha.getDate() - dias);
+  return fecha;
+}
+
 /* globals Chart:false, feather:false */
 
 (() => {
