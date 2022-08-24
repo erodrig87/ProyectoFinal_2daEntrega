@@ -1,19 +1,12 @@
 // Mensaje de informacion
 /*alert(
-`Se ingresan en automaticamente 9 gastos en 3 categorias diferentes para facilitar pruebas y visualizacion.
- 
-Se agregan eventos:
-- Los botones se encuentran manejados por eventos onclick declarados en .js
-- Al hacer pasar el mouse por la tabla, se visualiza en canvas el valor correspondiente a la fila en la que se encuentra el mouse.
+`Si no se encuentran datos almacenados se ingresan automaticamente 9 gastos en 3 categorias y fechas diferentes para facilitar pruebas y visualizacion.
 
-Interaccion con HTML:
-- Se puede ingresar un nuevo gasto desde el Formularo
-- La tabla Detalle gasto visualiza los gastos ingresados
-- Boton 'Reset Gastos', elimina gastos ingresados y elimina contenido de la tabla
-        
-Sin interaccion con HTML:
--Boton 'Mostrar Calculos', muestra gasto maximo, minimo y promedio total.
--Boton 'Filtrar Categoria', solicita ingresar categoria a filtrar y muestra gastos.`);*/
+- se almacenan gastos ingresados
+- al refrescar la pagina los graficos se actualizan con los datos almacenados
+- la tabla de gastos se puede filtrar seleccionando la categoria deseada
+- se validan datos de ingreso de forumlario. 
+`);*/
 
 //Def variables globales
 let createRandomExpenses = localStorage.getItem("RANDOM_EXPENSES") || "true";
@@ -28,6 +21,6 @@ let arrExpenses = [];
 let selectedFecha;
 let selectedValue;
 
-arrExpensesStored.length>0 && updateArrayExpenseTable();
+arrExpensesStored.length>0 && updateArrayExpenseTable(); // actuliza con gastos almacenados
 
-(createRandomExpenses == "true") ? randomExpenses():false;
+(createRandomExpenses == "true") ? randomExpenses():false; // si no hay gastos ingresados, genera 9 aleatorios.

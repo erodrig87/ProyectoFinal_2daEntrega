@@ -6,6 +6,16 @@ function restarDias(dias) {
   return fecha;
 }
 
+function randomColor() {
+
+    let arrColors =[];
+    let uniqueCategories = parseInt(localStorage.getItem("uniqueCategories"));
+    for( let i = 0; i<uniqueCategories;i++)arrColors.push("#" + ((1<<10)*Math.random() | 0).toString(16));
+    return arrColors;
+}
+
+
+
 /* globals Chart:false, feather:false */
 
 (() => {
@@ -34,13 +44,13 @@ function restarDias(dias) {
       datasets: [{
         // data ejemplo -> futuro se remplazara con sumatoria de gastos por dia 
         data: [
-          1540,
-          3400,
-          2940,
-          859,
-          3450,
-          7890,
-          1034
+          sumExpenses(filterDate(arrExpenses,restarDias(6).toLocaleDateString())),
+          sumExpenses(filterDate(arrExpenses,restarDias(5).toLocaleDateString())),
+          sumExpenses(filterDate(arrExpenses,restarDias(4).toLocaleDateString())),
+          sumExpenses(filterDate(arrExpenses,restarDias(3).toLocaleDateString())),
+          sumExpenses(filterDate(arrExpenses,restarDias(2).toLocaleDateString())),
+          sumExpenses(filterDate(arrExpenses,restarDias(1).toLocaleDateString())),
+          sumExpenses(filterDate(arrExpenses,restarDias(0).toLocaleDateString())),
         ],
         lineTension: 0,
         backgroundColor: '#007bff',
@@ -106,21 +116,13 @@ function restarDias(dias) {
     type: 'pie',
     data: {
       //eje x
-      labels: [
-        'Red',
-        'Blue',
-        'Yellow'
-      ],
+      labels: makeFilterCategory(arrExpenses), //funcion que retorna array de categorias
       // eje y
       datasets: [{
-        // data ejemplo -> futuro se remplazara con sumatoria de gastos por dia 
-        data: [300, 50, 100],
+        
+        data: sumExpensesByCategory(),//funcion que retorna array de suma x categoria
       //  lineTension: 0,
-      backgroundColor: [
-        'rgb(255, 99, 132)',
-        'rgb(54, 162, 235)',
-        'rgb(255, 205, 86)'
-      ],
+      backgroundColor: randomColor(),
       }],
       hoverOffset: 4
     },

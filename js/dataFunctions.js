@@ -3,7 +3,7 @@
 const readFormInput = () => {
     
     let validado = true;
-    let fecha = new Date(document.getElementById("inputDate").value);    
+    let fecha = new Date(`${document.getElementById("inputDate").value}T00:00`);//.value);    
     fecha = fecha.toLocaleDateString();
     if(fecha=="Invalid Date") validado = false;
     let categoria = (document.getElementById("inputTypeExpense").value).toUpperCase();
@@ -19,9 +19,16 @@ const readFormInput = () => {
         document.getElementById("inputExpenseForm").reset();
         nuevoGasto.storeExpense();
         addRowTable(nuevoGasto);
-        makeFilterCategory(arrExpenses); 
+        makeFilterCategory(arrExpenses);
+        if(document.getElementById("alertMsg"))document.getElementById("alertMsg").remove();
+
     } else { 
-        alert("ingresar datos validos");
+        nodoform = document.getElementById("inputExpenseForm");
+        nodo = document.createElement("div");
+        nodo.id = "alertMsg";
+        nodo.classList = "alert alert-warning"; nodo.style.visibility = "visible";
+        nodo.innerHTML = "Los datos ingresados no son validos";
+        nodoform.appendChild(nodo);
     }
 }
 
@@ -86,6 +93,8 @@ const resetExpense = (dias) => {
     }
     localStorage.clear();
 }
+
+// identifica categorias y crea filtro en tabla con checkbox seleccionable
 function makeFilterCategory(_array){
 
     categorias = _array.map((object) => object.categoria);
@@ -122,10 +131,38 @@ function makeFilterCategory(_array){
         categoryDropDownFilter.appendChild(checkbox);
 
       })
+      localStorage.setItem("uniqueCategories",newArray.length); 
       return newArray;
 
 }
 
+
+
+function filterDate(_array,filterDate){
+
+    let filteredArray = _array.filter((element, index, array) => array[index].fecha == filterDate);
+
+    return filteredArray;  
+}
+
+function filterCategory(_array,filterCategory){
+
+    let filteredArray = _array.filter((element, index, array) => array[index].categoria == filterCategory);
+
+    return filteredArray;  
+}
+
+
+//actualiza valor en canvas segun posicion de mouse
+function updateCanvas(objeto){
+    let canvas = document.getElementById("textSelectedRow");
+    let context = canvas.getContext("2d");
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.font = "40px Arial";
+    context.fillText(`$ ${objeto.valor}`, 30, 50);
+}
+
+//habilita visibilidad de fila segun filtro categoria
 function categoryFilterChecked(filterSelected){
     arrExpenses.forEach((objeto) =>{
         if(objeto.categoria==filterSelected){
@@ -135,6 +172,7 @@ function categoryFilterChecked(filterSelected){
    
 }
 
+//habilita visibilidad de fila segun filtro categoria
 function categoryFilterNotChecked(filterSelected){
     arrExpenses.forEach((objeto) =>{
         if(objeto.categoria==filterSelected){
@@ -142,4 +180,3 @@ function categoryFilterNotChecked(filterSelected){
         }
     })    
 }
-

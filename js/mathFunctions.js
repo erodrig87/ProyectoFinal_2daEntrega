@@ -23,21 +23,23 @@ const avgExpenses = () => {
     return prom;
 }
 
+//Devuelve el la suma total del array
+const sumExpenses = (_array) => {
+    let total_sum = 0;
+    _array.forEach(function(gasto) { total_sum += gasto.valor });
+    localStorage.setItem("total_sum", JSON.stringify(total_sum));
+    return total_sum;
+}
 
-//Muestra calculos realizados
-/*const mostrarCalculos = () => {
-    let mensajeCalculos = "";
-    if (arrExpenses.length > 0) {
-        let indexGastoMax = maxGasto();
-        let indexGastoMin = minGasto();
-        mensajeCalculos += `Gasto Maximo = Fecha: ${arrExpenses[indexGastoMax].fecha} | Categoria: ${arrExpenses[indexGastoMax].categoria} | Valor: ${arrExpenses[indexGastoMax].valor.toFixed(2)}\n`;
-        mensajeCalculos += `Gasto Minimo = Fecha: ${arrExpenses[indexGastoMin].fecha} | Categoria: ${arrExpenses[indexGastoMin].categoria} | Valor: ${arrExpenses[indexGastoMin].valor.toFixed(2)}\n`;
-        mensajeCalculos += `Promedio de gastos: ${avgExpenses().toFixed(2)}`;
-        alert(mensajeCalculos)
-    } else {
-        mensajeCalculos += 'No es posible realizar calculos debido a que no se ingresaron gastos'
-        alert(mensajeCalculos);
+//devuelve array de sumas x categoria
+function sumExpensesByCategory(){
 
+    let arrSumExpensesByCategory =[];
+    let arrayCategorias = makeFilterCategory(arrExpenses);
+    for(let i=0;i<arrayCategorias.length;i++){
+ 
+       arrSumExpensesByCategory.push(sumExpenses(filterCategory(arrExpenses,arrayCategorias[i])));
 
     }
-}*/
+    return arrSumExpensesByCategory;
+}
